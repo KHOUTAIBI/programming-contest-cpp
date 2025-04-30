@@ -2,7 +2,7 @@
 
 int main(){
 
-    int L, W, shatter_number, area{0}, l, w;
+    int W, shatter_number, area{0}, l, w;
 
     scanf("%d\n", &W);
     scanf("%d\n", &shatter_number);
