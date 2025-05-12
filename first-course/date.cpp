@@ -1,33 +1,22 @@
 #include <cstdio>
+#include <string>
+
 
 int main(){
+    
+    char* name[1000];
+    int price, number, total{0}, real;
+    
+    while(scanf("%s\n", name) > 0){
+        string name_(name);
+        
+        if (name == "TOTAL"){
+            break
+        }
 
-    int a;
-    scanf("%d\n", &a);
+        scanf("%d %d\n", &price, &number);
 
-    int date = (a + 3) % 7;
+        total
 
-    switch (date) {
-        case 0:
-            printf("Monday\n");
-            break;
-        case 1:
-            printf("Tuesday\n");
-            break;
-        case 2:
-            printf("Wednesday\n");
-            break;
-        case 3:
-            printf("Thursday\n");
-            break;
-        case 4:
-            printf("Friday\n");
-            break;
-        case 5:
-            printf("Saturday\n");
-            break;
-        case 6:
-            printf("Sunday\n");
-            break;
     }
 }

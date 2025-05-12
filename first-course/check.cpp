@@ -2,12 +2,12 @@
 
 int main(){
 
-    float total = 0.0;
-    float money;
+    long double total = 0.00;
+    long double money;
 
     while(scanf("%f", &money) == 1){   
         total += money;
     }
 
-    printf("%.2lf", total);
+    printf("%.2Lf", total);
 }
