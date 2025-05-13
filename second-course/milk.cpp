@@ -3,23 +3,22 @@
 #include <cstdio>
 #include <tuple>
 #include <algorithm>
-#include <limits>
+#include <cmath>
+#include <map>
 
 using namespace std;
 
 const int NB_NODES_MAX = 1000000;
 const long long INF = 1e18;
 
-int max_flow = 0;
-int cost_max_flow_edge = 0;
-int nbEdges, nbNodes;
+long long max_flow = 0;
+long long cost_max_flow_edge = 0;
+long long nbEdges, nbNodes;
 
-pair<int, int> pair_max;
-vector<pair<int, int>> nxt[NB_NODES_MAX];
-vector<int> flows[NB_NODES_MAX];
+vector<tuple<long long, long long, long long>> nxt[NB_NODES_MAX];
+vector<long long> flows[NB_NODES_MAX];
 
-int dist_from_start[NB_NODES_MAX];
-int dist_from_v[NB_NODES_MAX];
+long double dist_from_start[NB_NODES_MAX];
 
 
 void readGraph() {
@@ -31,38 +30,45 @@ void readGraph() {
 
         scanf("%d %d %d %d\n", &pipe1, &pipe2, &cost, &flow);
         
-        // Update max flow edge
-        if (flow >= max_flow) {
-            max_flow = flow;
-            pair_max = {pipe1, pipe2};
-            cost_max_flow_edge = cost;
-        }
-        
         nxt[pipe1].emplace_back(pipe2, cost, flow);
         nxt[pipe2].emplace_back(pipe1, cost, flow); 
     }
 }
 
-void dijkstra(int start_node, int dist[]) {
+void dijkstra(int start_node, long double dist[]) {
+    
+    fill(dist, dist + nbNodes, 0);
+    
+    set<pair<long double, int>, greater<pair<long double, int>>> p_queue;
 
-    fill(dist, dist + nbNodes + 1, INF);
-    set<pair<int, int>> p_queue;
-
-    dist[start_node] = 0;
-    p_queue.insert({0, start_node});
+    dist[start_node] = INF;  
+    p_queue.insert({dist[start_node], start_node});
+    map<int, long long> flow_min_in_path;
+    map<int, long double> total_cost_to_node;
+    
+    flow_min_in_path[start_node] = INF;
+    total_cost_to_node[start_node] = 0;
 
     while (!p_queue.empty()) {
-
-        auto [node_dist, node] = *p_queue.begin();
+        
+        auto [current_ratio, node] = *p_queue.begin();
         p_queue.erase(p_queue.begin());
+        
+        
+        if (current_ratio < dist[node]) continue;
 
         for (auto [to, cost, flow] : nxt[node]) {
 
-            if (node_dist + cost < dist[to]) {
+            long long min_flow = min(flow_min_in_path[node], flow);
+            long double total_cost = total_cost_to_node[node] + cost;
+            long double new_ratio = min_flow / total_cost;
 
-                p_queue.erase({dist[to], to});
-                dist[to] = node_dist + cost;
-                p_queue.insert({dist[to], to});
+            if (new_ratio > dist[to]) {
+
+                dist[to] = new_ratio;
+                flow_min_in_path[to] = min_flow;
+                total_cost_to_node[to] = total_cost;
+                p_queue.insert({new_ratio, to});
             
             }
         }
@@ -75,19 +81,8 @@ int main() {
     
     int start = 1;
     int end_node = nbNodes;
-
-    int u = pair_max.first;
-    int v = pair_max.second;
-
+    
     dijkstra(start, dist_from_start);
-    dijkstra(v, dist_from_v); 
 
-    int total_dist = dist_from_start[u] + cost_max_flow_edge + dist_from_v[end_node];
-    
-    printf("%d\n", dist_from_start[u]);
-    
-    long double solution = 1e6 * (total_dist / max_flow);
-
-    printf("%Ld\n", solution);
-    
+    printf("%0.Lf\n", floor(1e6 * dist_from_start[end_node]));
 }
