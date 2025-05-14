@@ -1,41 +1,48 @@
 #include <cstdio>
-#include <map>
-#include <map>
 #include <string>
+#include <map>
 #include <set>
 
 using namespace std;
 
 int main(){
 
-    int N, total{0}, left{0}, right{1};
+    int N, K{1};
     set<string> s;
+
     scanf("%d\n", &N);
 
     char list_chars[N];
+    map<string, int> mem;
+
     scanf("%[^\n]", list_chars);
     string colors(list_chars);
 
-    while(true){
+    size_t left{0}, right{1};
 
-        if (right == N){
-            printf("%d\n", right - left);
-            break;
+
+    while(K <= N){
+
+        map<string, int> mem;
+        
+        bool has_duplicate = false;
+
+        for (int i = 0; i <= N - K; i++) {
+            
+            string sub = colors.substr(i, K);
+            if (mem[sub]) {
+                has_duplicate = true;
+                break;
+            
+            }
+            mem[sub]++;
         }
 
-
-        if (s.find(colors.substr(left, left + right)) != s.end()){
-            s.insert(colors.substr(left, left + right)); 
-            left += 1;
-        }
-
-        else{
-            right += 1;
-            left = 0;
-            s.clear();
-        }
-
-
+        if (!has_duplicate) break;
+        mem.clear();
+        K++;
 
     }
+
+    printf("%d\n", K);
 }
