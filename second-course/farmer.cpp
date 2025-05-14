@@ -19,26 +19,24 @@ int main(){
     string colors(list_chars);
 
     size_t left{0}, right{1};
-
+    map<string, int> mem;
 
     while(K <= N){
-
-        map<string, int> mem;
         
-        bool has_duplicate = false;
+        bool duplicate = false;
 
         for (int i = 0; i <= N - K; i++) {
             
             string sub = colors.substr(i, K);
             if (mem[sub]) {
-                has_duplicate = true;
+                duplicate = true;
                 break;
             
             }
             mem[sub]++;
         }
 
-        if (!has_duplicate) break;
+        if (!duplicate) break;
         mem.clear();
         K++;
 
