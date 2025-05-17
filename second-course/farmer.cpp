@@ -25,7 +25,7 @@ int main(){
         
         bool duplicate = false;
 
-        for (int i = 0; i <= N - K; i++) {
+        for (int i = 0; i <= N - K; ++i) {
             
             string sub = colors.substr(i, K);
             if (mem[sub]) {
