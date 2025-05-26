@@ -18,7 +18,7 @@ int main(){
 
         if (names[_name] == 0){
             total+=1;
-            names[_name]+=1;
+            ++names[_name];
         }
         
     }
