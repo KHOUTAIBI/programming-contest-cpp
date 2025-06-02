@@ -1,57 +1,57 @@
 #include <cstdio>
-#include <set>
+#include <cstring>
 
-using namespace std;
+const int MAXN = 500;
+const int MAXV = 2 * MAXN + 2;
 
 int N, K;
-const int MAX_NODES  = 1000 * 1000;
-int adjacency[MAX_NODES][MAX_NODES];
-int capa[MAX_NODES][MAX_NODES], flow[MAX_NODES][MAX_NODES];
-bool visited[MAX_NODES];
+int capa[MAXV][MAXV], flow[MAXV][MAXV];
+bool visited[MAXV];
 
 
-int dfs(int x, int target) {
-    
-    if(visited[x]) return 0;
-    if(x==target) return 1;  
-    visited[x] = true; 
-    for(int i = 0; i < N; ++i) 
-    if(flow[x][n] < capa[x][n]) { 
-    
-    const int sub_flow = dfs(n, target);
-    if(sub_flow > 0) {
-        flow[x][n]+= 1;
-        flow[n][x]-= 1;
-        return sub_flow;
+bool dfs(int u, int target) {
+    if (visited[u]) return false;
+    visited[u] = true;
+    if (u == target) return true;
+
+    for (int v = 0; v < MAXV; ++v) {
+        if (flow[u][v] < capa[u][v]) {
+            if (dfs(v, target)) {
+                flow[u][v] += 1;
+                flow[v][u] -= 1;
+                return true;
+            }
+        }
     }
-    return 0; 
+    return false;
 }
 
+int main() {
+    scanf("%d %d", &N, &K);
+    int src  = 2 * N;
+    int sink  = 2 * N + 1;
 
-int main(){
-    
-    scanf("%d %d\n", &N, &K);
-
-    for (int i = 0; i < N; ++i){
-        int x, y;
-        scanf("%d %d\n", &x, &y);
+    for (int i = 0; i < K; ++i) {
+        int r, c;
+        scanf("%d %d", &r, &c);
+        capa[r - 1][N + c -1] = 1;
     }
 
-    for (int i = 0; i < N; ++i){
-        adjacency[x][y] = 1;
+    for (int r = 0; r < N; ++r) {
+        capa[src][r] = 1;
     }
 
-    for (int i = 0; i < N; ++i){
-        adjacency[N][i] = 1;
+    for (int c = 0; c < N; ++c) {
+        capa[N + c][sink] = 1;
     }
 
-    for (int i = 0; i < N; ++i){
-        adjacency[i][N] = 1;
+    int result = 0;
+    while (true) {
+        memset(visited, 0, sizeof(visited));
+        if (!dfs(src, sink)) break;
+        result++;
     }
 
-    int res = 0;
-    int INF = 1000 * 1000;
-    while(dfs(N, INF, N - 1)){
-        res+= dfs(N, INF, N - 1);
-    }
+    printf("%d\n", result);
+    return 0;
 }
