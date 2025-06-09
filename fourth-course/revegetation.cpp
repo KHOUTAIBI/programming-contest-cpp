@@ -46,6 +46,7 @@ void mark(int n, int color){
 int main(){
 
     readGraph();
+
     for (int i = 1; i <= N; ++i){
         if (type[i] == 0){
             ++res;
@@ -55,7 +56,6 @@ int main(){
 
     if (res <= 0){
         printf("0\n");
-     
     }
 
     else {

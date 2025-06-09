@@ -47,7 +47,6 @@ int main() {
 
     int result = 0;
     while (true) {
-        memset(visited, 0, sizeof(visited));
         if (!dfs(src, sink)) break;
         result++;
     }
