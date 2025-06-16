@@ -19,7 +19,7 @@ long long max_value(long long t, int node) {
 
     if (res == -INF){
         res++;
-        if (node == 1) res = - C * (long long)t * (long long)t; 
+        if (node == 1) res = - C * t * t; 
         for (int v : nxt[node]){
             res = max(res, max_value(t + 1, v));
         }
@@ -38,7 +38,7 @@ int main(){
         scanf("%lld ", &values[i]);
     }
     
-    long long a,b;
+    long long a, b;
     for (int i = 0; i < M; ++i){
         scanf("%lld %lld\n", &a, &b);
         nxt[a].push_back(b);
