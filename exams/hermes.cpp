@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <algorithm>
 
+
 using namespace std;
 
 typdef pair<int, int> msg;
@@ -18,11 +19,12 @@ int main(){
         messages[i] = message;
     }
 
+    int dist = 0;
 
     for (int i = 0; i < N; ++i){
         msg {x1, y1}  = messages[i];
         for (int j = i; j < N; ++j){
-                     
+            
         }
     }
 }

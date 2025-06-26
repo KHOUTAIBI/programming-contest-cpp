@@ -22,7 +22,7 @@ int main() {
         long long current_area = 0;
 
         scanf("%lld %lld\n", &x, &y);
-        pt a{x, y};
+        pt a{x, y}; 
         scanf("%lld %lld\n", &x, &y);
         pt b{x, y};
 
